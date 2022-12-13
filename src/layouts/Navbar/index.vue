@@ -28,7 +28,7 @@
       </div>
     </div>
   </nav> -->
-  <nav class="bg-gray-50 dark:bg-gray-700 px-4">
+  <nav class="bg-gray-100 dark:bg-gray-700 px-10 py-2">
     <div class="max-w-screen-xl px-4 py-3 mx-auto md:px-6">
       <div class="flex items-center">
         <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
