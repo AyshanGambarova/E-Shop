@@ -13,6 +13,7 @@
         >
           <!-- Card -->
           <div
+            :loading="loading"
             v-for="product in products"
             :key="product.id"
             class="group relative"
@@ -34,7 +35,9 @@
                   <span aria-hidden="true" class="absolute inset-0" />
                   {{ product?.brand }}
                 </h3>
-                <p class="mt-1 text-sm text-gray-500">{{ product?.category }}</p>
+                <p class="mt-1 text-sm text-gray-500">
+                  {{ product?.category }}
+                </p>
               </div>
               <p class="text-sm font-medium text-gray-900">
                 ${{ product?.price }}
@@ -50,3 +53,4 @@
 import script from "./main";
 export default script;
 </script>
+<style></style>
