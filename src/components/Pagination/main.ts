@@ -46,7 +46,7 @@ export default defineComponent({
     }
 
     function onClickLastPage() {
-      context.emit("pagechanged", getPaginationOptions.value.totalPages);
+      context.emit("pagechanged", getPaginationOptions.value.total/getPaginationOptions.value.limit);
     }
 
     function isPageActive(page: number) {
@@ -60,8 +60,8 @@ export default defineComponent({
       if (props.currentPage === 1) {
         return 1;
       }
-      if (props.currentPage === getPaginationOptions.value.total) {
-        return getPaginationOptions.value.total - props.maxVisibleButtons + 1;
+      if (props.currentPage === getPaginationOptions.value.total/getPaginationOptions.value.limit) {
+        return (getPaginationOptions.value.total/getPaginationOptions.value.limit) - props.maxVisibleButtons + 1;
       }
       return props.currentPage - 1;
     });
@@ -69,7 +69,7 @@ export default defineComponent({
     const endPage = computed(() => {
       return Math.min(
         startPage.value + (props.maxVisibleButtons - 1),
-        getPaginationOptions.value.total
+        getPaginationOptions.value.total/getPaginationOptions.value.limit
       );
     });
 
@@ -91,7 +91,7 @@ export default defineComponent({
 
    
     const isInLastPage = computed(() => {
-      return props.currentPage === getPaginationOptions.value.total;
+      return props.currentPage === (getPaginationOptions.value.total/getPaginationOptions.value.limit);
     });
 
 

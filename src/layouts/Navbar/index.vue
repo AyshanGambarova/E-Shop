@@ -34,14 +34,6 @@
         <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
           <li>
             <router-link
-              :to="`/`"
-              class="text-gray-900 dark:text-white hover:underline"
-            >
-              Home
-            </router-link>
-          </li>
-          <li>
-            <router-link
               :to="`/products`"
               class="text-gray-900 dark:text-white hover:underline"
             >
