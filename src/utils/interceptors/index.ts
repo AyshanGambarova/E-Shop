@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from '@/store'
 
 const axiosConfig = {
   baseURL: "https://dummyjson.com",
@@ -17,6 +18,14 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
+    if (response.data.limit && response.data.total) {
+      const { total } = response.data;
+      const paginationOptions = {
+        total,
+      };
+      store.commit('pagination/SET_PAGINATION_OPTIONS', paginationOptions)
+    }
+
     return response;
   },
   function (error) {

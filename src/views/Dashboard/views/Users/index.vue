@@ -35,10 +35,20 @@
                   View more
                 </router-link>
               </div>
+              <div>{{user?.id}}</div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="max-w-lg mx-auto my-12">
+      <Pagination
+        class="justify-center"
+        :totalPages="totalPages"
+        :currentPage="currentPage"
+        :hasMorePages="hasMorePages"
+        @pagechanged="showMore"
+      />
     </div>
   </div>
 </template>

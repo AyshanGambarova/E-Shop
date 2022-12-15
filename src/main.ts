@@ -1,12 +1,10 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import 'flowbite'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import { loadFonts } from "./plugins/webfontloader";
 
-import './assets/main.css'
+import "./assets/main.css";
 
-const app = createApp(App)
+loadFonts();
 
-app.use(router)
-
-app.mount('#app')
+createApp(App).use(router).mount("#app");
