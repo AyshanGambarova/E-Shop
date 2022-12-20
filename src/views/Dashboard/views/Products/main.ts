@@ -46,6 +46,21 @@ export default defineComponent({
       products.value = [...products.value, ...response.data.products];
     }
 
+    function addToCart(product: any) {
+      //hecvact null ola bilmez demekdir !
+
+      let cart = JSON.parse(localStorage.getItem("cart")!);
+      const productInCart = cart.find((item: any) => {
+        return item.product.id === product.id;
+      });
+      if (productInCart) {
+        productInCart.quantity += 1;
+      } else {
+        cart.push({ product, quantity: 1 });
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
     //#endregion
 
     // #region Hooks
@@ -64,6 +79,7 @@ export default defineComponent({
       products,
       loading,
       getProducts,
+      addToCart
     };
   },
 });

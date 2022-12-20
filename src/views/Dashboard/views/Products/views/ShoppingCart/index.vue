@@ -20,7 +20,7 @@
                   <span class="sr-only">Image</span>
                 </th>
                 <th scope="col" class="py-3 px-6">Product</th>
-                <th scope="col" class="py-3 px-6">Qty</th>
+                <th scope="col" class="py-3 px-10">Quantity</th>
                 <th scope="col" class="py-3 px-6">Price</th>
                 <th scope="col" class="py-3 px-6">Action</th>
               </tr>
@@ -43,7 +43,7 @@
                   <div class="flex items-center space-x-3">
                     <button
                     @click="decreaseQuantity(item.product.id)"
-                      :class="(item.quantity===0)?'cursor-not-allowed inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700':'inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'"
+                      :class="(item.quantity===1)?'cursor-not-allowed inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700':'inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'"
                       type="button"
                     >
                       <span class="sr-only">Quantity button</span>

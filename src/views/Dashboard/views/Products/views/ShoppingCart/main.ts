@@ -1,5 +1,5 @@
 import { Getter } from "@/helpers/store";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { EnumStoreNamespace } from "@/enums";
 
 export default defineComponent({
@@ -31,7 +31,7 @@ export default defineComponent({
     };
     const decreaseQuantity = (id: number) => {
       const decresedItem = cart.value.filter((x: any) => x.product.id === id);
-      if (decresedItem[0].quantity === 0) {
+      if (decresedItem[0].quantity === 1) {
         return;
       }
       decresedItem[0].quantity--;
@@ -45,6 +45,7 @@ export default defineComponent({
       updateLocalStorage();
     };
     // #endregion
+    
 
     return {
       cart,

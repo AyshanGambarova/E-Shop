@@ -4,44 +4,39 @@
       <div
         class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8"
       >
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900">
-          Customers also purchased
-        </h2>
-
         <div
-          class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+          class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
         >
           <!-- Card -->
-          <div
-            :loading="loading"
-            v-for="product in products"
-            :key="product.id"
-            class="group relative"
-          >
-            <router-link :to="`/products/${product.id}`">
-              <div
-                class="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80"
+          <div :loading="loading" v-for="product in products" :key="product.id">
+             <router-link :to="`/products/${product.id}`">
+            <div
+              class="w-full h-64 bg-gray-300 bg-center bg-cover rounded-lg shadow-md"
+              :style="{ backgroundImage: `url(${product?.thumbnail})` }"
+            ></div>
+             </router-link>
+            <div
+              class="w-56 -mt-10 overflow-hidden bg-white rounded-lg shadow-lg md:w-64 dark:bg-gray-800"
+            >
+              <h3
+                class="py-2 font-bold tracking-wide text-center text-gray-800 uppercase dark:text-white"
               >
-                <img
-                  :src="product?.thumbnail"
-                  :alt="product?.title"
-                  class="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                />
+                {{ product?.brand }}
+              </h3>
+
+              <div
+                class="flex items-center justify-between px-3 py-2 bg-gray-200 dark:bg-gray-700"
+              >
+                <span class="text-gray-800 dark:text-gray-200"
+                  >${{ product?.price }}</span
+                >
+                <button
+                  @click="addToCart(product)"
+                  class="px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-indigo-700 rounded hover:bg-indigo-800 dark:hover:bg-indigo-600 focus:bg-indigo-700 dark:focus:bg-indigo-600 focus:outline-none"
+                >
+                  Add to cart
+                </button>
               </div>
-            </router-link>
-            <div class="mt-4 flex justify-between">
-              <div>
-                <h3 class="text-sm text-gray-700">
-                  <span aria-hidden="true" class="absolute inset-0" />
-                  {{ product?.brand }}
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  {{ product?.category }}
-                </p>
-              </div>
-              <p class="text-sm font-medium text-gray-900">
-                ${{ product?.price }}
-              </p>
             </div>
           </div>
         </div>

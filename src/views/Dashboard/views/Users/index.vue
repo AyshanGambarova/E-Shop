@@ -30,12 +30,11 @@
               <div class="flex mt-4 space-x-3 md:mt-6">
                 <router-link
                   :to="`/users/${user.id}`"
-                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  class="px-4 py-2 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-indigo-700 rounded hover:bg-indigo-800 dark:hover:bg-indigo-600 focus:bg-indigo-700 dark:focus:bg-indigo-600 focus:outline-none"
                 >
                   View more
                 </router-link>
               </div>
-              <div>{{user?.id}}</div>
             </div>
           </div>
         </div>

@@ -5,6 +5,9 @@ import type { TLoginUser } from "@/types/User";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import $http from "@/utils/interceptors";
+import { Action } from "@/helpers/store";
+import { EnumStoreNamespace } from '@/enums';
+import {SET_CURRENT_USER} from '@/store/modules/user/constants'
 
 export default defineComponent({
   name: "LoginPage",
@@ -42,6 +45,15 @@ export default defineComponent({
             url: `/auth/login`,
           });
           localStorage.setItem("token", response.data.token);
+          console.log(response.data);
+          
+          Action({
+            namespace: EnumStoreNamespace.USER,
+            action: SET_CURRENT_USER,
+            payload:response.data
+          })
+
+          
           await $router.push({ path: "/products" });
         } catch (error) {
         }
