@@ -1,4 +1,5 @@
 import {computed, defineComponent,ref} from 'vue'
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Navbar',
@@ -6,7 +7,15 @@ export default defineComponent({
 
   setup() {
     // #region State
+    const $router = useRouter()
     let isOpen = ref<boolean>(false)
+    // #endregion
+
+    // #region Method
+    async function logOut() {
+      localStorage.removeItem('token')
+      await $router.push({path:'/login'})
+    }
     // #endregion
 
     // #region Computed
@@ -24,7 +33,8 @@ export default defineComponent({
     // #endregion
     return {
       cartTotalQuantity,
-      isOpen
+      isOpen,
+      logOut
     }
   }
 })

@@ -7,11 +7,12 @@
       <div class="lg:flex lg:items-center lg:justify-between">
         <div class="flex items-center justify-between">
           <div class="text-xl font-semibold text-gray-700">
-            <a
+            <router-link
+              to="/products"
               class="text-2xl font-bold text-gray-800 transition-colors duration-300 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300"
-              href="#"
-              >E-Shop</a
             >
+              E-Shop
+            </router-link>
           </div>
 
           <!-- Mobile menu button -->
@@ -38,8 +39,6 @@
                   d="M4 8h16M4 16h16"
                 />
               </svg>
-
-            
             </button>
           </div>
         </div>
@@ -115,6 +114,12 @@
               <h3 class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">
                 Khatab wedaa
               </h3>
+            </button>
+            <button
+            @click="logOut()"
+              class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              Log out
             </button>
           </div>
         </div>
