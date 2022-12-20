@@ -55,6 +55,8 @@ export default defineComponent({
         getProducts(event);
       });
       triggerProducts(skip.value, limit.value);
+
+      
     });
 
     // #endregion

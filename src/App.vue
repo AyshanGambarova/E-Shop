@@ -1,22 +1,26 @@
 <template>
   <div id="app">
     <main>
-      <router-view/>
+      <router-view />
     </main>
   </div>
-  
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
 
-  data () {
+  data() {
     return {
       //
+    };
+  },
+  created() {
+    if (localStorage.getItem("cart") === null) {
+      localStorage.setItem("cart", JSON.stringify([]));
     }
   },
-})
+});
 </script>

@@ -1,5 +1,5 @@
 import { Getter } from "@/helpers/store";
-import { computed, defineComponent, ref ,onMounted, watch} from "vue";
+import { computed, defineComponent, ref, onMounted, watch } from "vue";
 export default defineComponent({
   name: "Pagination",
   props: {
@@ -20,11 +20,9 @@ export default defineComponent({
   },
   emits: ["pagechanged"],
   setup(props, context) {
-
     // #region States
 
     // #endregion
-
 
     // #region Methods
 
@@ -40,13 +38,15 @@ export default defineComponent({
       context.emit("pagechanged", page);
     }
 
-     
     function onClickNextPage() {
       context.emit("pagechanged", props.currentPage + 1);
     }
 
     function onClickLastPage() {
-      context.emit("pagechanged", getPaginationOptions.value.total/getPaginationOptions.value.limit);
+      context.emit(
+        "pagechanged",
+        getPaginationOptions.value.total / getPaginationOptions.value.limit
+      );
     }
 
     function isPageActive(page: number) {
@@ -56,20 +56,27 @@ export default defineComponent({
     //#endregion
 
     // #region Computed
-    const startPage = computed(() => {
+    const startPage = computed<number>(() => {
       if (props.currentPage === 1) {
         return 1;
       }
-      if (props.currentPage === getPaginationOptions.value.total/getPaginationOptions.value.limit) {
-        return (getPaginationOptions.value.total/getPaginationOptions.value.limit) - props.maxVisibleButtons + 1;
+      if (
+        props.currentPage ===
+        getPaginationOptions.value.total / getPaginationOptions.value.limit
+      ) {
+        return (
+          getPaginationOptions.value.total / getPaginationOptions.value.limit -
+          props.maxVisibleButtons +
+          1
+        );
       }
       return props.currentPage - 1;
     });
 
-    const endPage = computed(() => {
+    const endPage = computed<number>(() => {
       return Math.min(
         startPage.value + (props.maxVisibleButtons - 1),
-        getPaginationOptions.value.total/getPaginationOptions.value.limit
+        getPaginationOptions.value.total / getPaginationOptions.value.limit
       );
     });
 
@@ -85,35 +92,34 @@ export default defineComponent({
       return range;
     });
 
-    const isInFirstPage = computed(() => {
+    const isInFirstPage = computed<boolean>(() => {
       return props.currentPage === 1;
     });
 
-   
-    const isInLastPage = computed(() => {
-      return props.currentPage === (getPaginationOptions.value.total/getPaginationOptions.value.limit);
+    const isInLastPage = computed<boolean>(() => {
+      return (
+        props.currentPage ===
+        getPaginationOptions.value.total / getPaginationOptions.value.limit
+      );
     });
-
 
     //Store
     const getPaginationOptions = computed(() => {
       return Getter({
-        namespace: 'pagination',
-        getter: 'getPaginationOptions'
-      })
-    })
+        namespace: "pagination",
+        getter: "getPaginationOptions",
+      });
+    });
 
     // #endregion
 
     // #region Hooks
 
-    onMounted(() => {
-   
-    })
+    onMounted(() => {});
     // #endregion
 
     // #region Watch
-   
+
     // #endregion
     return {
       isInFirstPage,
@@ -125,7 +131,7 @@ export default defineComponent({
       onClickLastPage,
       isPageActive,
       onClickPage,
-      getPaginationOptions
+      getPaginationOptions,
     };
   },
 });

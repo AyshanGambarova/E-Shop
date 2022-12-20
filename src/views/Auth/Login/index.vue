@@ -15,36 +15,45 @@
           Sign in to your account
         </h2>
       </div>
-      <form class="mt-8 space-y-6" ref="form">
+      <form class="mt-8 space-y-6" @submit.prevent="handleSubmit()">
         <input type="hidden" name="remember" value="true" />
-        <div class="-space-y-px rounded-md shadow-sm">
+        <div class="-space-y-px rounded-md">
           <div>
-            <label for="email-address" class="sr-only">Username</label>
+            <label class="sr-only">Username</label>
             <input
-             v-model="creatingUser.username"
-              id="username"
-              name="username"
+              type="text"
+              v-model="creatingUser.username"
               required
               class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Username"
+              @blur="handleBlur('username')"
             />
           </div>
+            <div v-if="validate.username.$errors">
+              <p v-for="$error in validate.username.$errors" :key="$error.$property" class="text-center text-red-600 tracking-wide">
+                {{ $error.$message }}
+              </p>
+            </div>
           <div>
             <label for="password" class="sr-only">Password</label>
             <input
-            v-model="creatingUser.password"
-              id="password"
-              name="password"
-              autocomplete="current-password"
+              type="password"
+              v-model="creatingUser.password"
               required
               class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Password"
+              @blur="handleBlur('password')"
             />
           </div>
+            <div v-if="validate.password.$errors">
+              <p v-for="$error in validate.password.$errors" :key="$error.$property" class="text-center text-red-600 tracking-wide">
+                {{ $error.$message }}
+              </p>
+            </div>
         </div>
         <div>
           <button
-          @click.prevent="handleSubmit()"
+            :disabled="validate.$invalid"
             type="submit"
             class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
