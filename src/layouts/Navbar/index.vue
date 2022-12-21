@@ -48,29 +48,35 @@
           x-cloak
           :class="[
             isOpen
-              ? 'translate-x-0 opacity-100 '
-              : 'opacity-0 -translate-x-full',
+              ? 'translate-x-0 opacity-100 shadow-2xl rounded-md'
+              : 'opacity-0 -translate-x-full rounded-none shadow-none',
           ]"
           class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
         >
           <div class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
             <router-link
               :to="`/products`"
-              class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex justify-center items-center px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               Products
             </router-link>
             <router-link
               :to="`/users`"
-              class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex justify-center items-center px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               Users
             </router-link>
+             <button
+            @click="logOut()"
+              class="flex justify-center items-center px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              Sign out
+            </button>
           </div>
 
-          <div class="flex items-center mt-4 lg:mt-0">
+          <div class="flex items-center justify-end mt-4 lg:mt-0">
             <button
-              class="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
+              class="mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
               aria-label="show notifications"
             >
               <div>
@@ -89,7 +95,7 @@
                     </svg>
                     <span
                       class="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-xs leading-tight text-center"
-                      >{{ cartTotalQuantity }}
+                      >{{cartTotalCount}}
                     </span>
                   </div>
                 </router-link>
@@ -105,22 +111,17 @@
                 class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+                  :src="currentUser?.image"
                   class="object-cover w-full h-full"
                   alt="avatar"
                 />
               </div>
 
               <h3 class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">
-                Khatab wedaa
+                {{currentUser?.firstName}} {{currentUser?.lastName}}
               </h3>
             </button>
-            <button
-            @click="logOut()"
-              class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              Log out
-            </button>
+           
           </div>
         </div>
       </div>

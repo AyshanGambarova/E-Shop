@@ -1,40 +1,53 @@
-import {computed, defineComponent,ref} from 'vue'
-import { useRouter } from 'vue-router';
+import { computed, defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { onMounted } from "vue";
+import { Mutation, Getter } from "@/helpers/store";
+import { EnumStoreNamespace } from "@/enums";
+import { GET_CART, SET_CART } from "@/store/modules/cart/constants";
 
 export default defineComponent({
-  name: 'Navbar',
+  name: "Navbar",
   //@ts-ignore
 
   setup() {
     // #region State
-    const $router = useRouter()
-    let isOpen = ref<boolean>(false)
+    const $router = useRouter();
+    let isOpen = ref<boolean>(false);
+    const currentUser = ref<any>({});
+    currentUser.value = JSON.parse(localStorage.getItem("currentUser")!);
+
     // #endregion
 
     // #region Method
     async function logOut() {
-      localStorage.removeItem('token')
-      await $router.push({path:'/login'})
+      localStorage.removeItem("token");
+      await $router.push({ path: "/login" });
     }
     // #endregion
 
     // #region Computed
-    const cart = computed(() => {
-      return JSON.parse(localStorage.getItem("cart")!);
+    const getCart = computed(() => {
+      return Getter({
+        namespace: EnumStoreNamespace.CART,
+        getter: GET_CART,
+      });
     });
-    const cartTotalQuantity = computed(() => {
+
+    const cartTotalCount = computed(() => {
       let total = 0;
-      cart.value.forEach((item) => {
+      getCart.value.forEach((item: any) => {
         total += item.quantity;
       });
       return total;
     });
 
     // #endregion
+    
     return {
-      cartTotalQuantity,
       isOpen,
-      logOut
-    }
-  }
-})
+      logOut,
+      currentUser,
+      cartTotalCount,
+    };
+  },
+});

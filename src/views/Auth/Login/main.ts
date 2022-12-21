@@ -5,9 +5,9 @@ import type { TLoginUser } from "@/types/User";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import $http from "@/utils/interceptors";
-import { Action } from "@/helpers/store";
-import { EnumStoreNamespace } from '@/enums';
-import {SET_CURRENT_USER} from '@/store/modules/user/constants'
+import { EnumStoreNamespace } from "@/enums";
+import { SET_CURRENT_USER } from "@/store/modules/user/constants";
+import { Mutation } from "@/helpers/store";
 
 export default defineComponent({
   name: "LoginPage",
@@ -16,6 +16,7 @@ export default defineComponent({
   setup() {
     // #region State
     const $router = useRouter();
+    
     let creatingUser = ref<TLoginUser>({
       username: "",
       password: "",
@@ -32,7 +33,6 @@ export default defineComponent({
     const handleBlur = (key: any) => {
       validate.value[key].$dirty = true;
       console.log(validate.value.username.$errors);
-      
     };
 
     async function handleSubmit() {
@@ -45,25 +45,16 @@ export default defineComponent({
             url: `/auth/login`,
           });
           localStorage.setItem("token", response.data.token);
-          console.log(response.data);
-          
-          Action({
-            namespace: EnumStoreNamespace.USER,
-            action: SET_CURRENT_USER,
-            payload:response.data
-          })
+          localStorage.setItem("currentUser", JSON.stringify(response.data));
 
-          
           await $router.push({ path: "/products" });
-        } catch (error) {
-        }
+        } catch (error) {}
         creatingUser.value = {
           username: "",
           password: "",
         };
       }
     }
-
 
     // #endregion
 

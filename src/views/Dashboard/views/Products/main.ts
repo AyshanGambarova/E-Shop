@@ -1,11 +1,14 @@
 import { defineComponent, onMounted, ref } from "vue";
 import $http from "@/utils/interceptors";
+import { Mutation } from "@/helpers/store";
+import { EnumStoreNamespace } from "@/enums";
+import { SET_CART } from "./../../../../store/modules/cart/constants";
 
 export default defineComponent({
   name: "ProductsPage",
   setup() {
-    // #region States
 
+    // #region States
     const products = ref<any>([]);
     let skip = ref<number>(0);
     let loading = ref<boolean>(false);
@@ -15,7 +18,6 @@ export default defineComponent({
     // #endregion
 
     // #region Methods
-
     async function getProducts(event: any) {
       try {
         let { scrollTop, clientHeight, scrollHeight } =
@@ -47,8 +49,6 @@ export default defineComponent({
     }
 
     function addToCart(product: any) {
-      //hecvact null ola bilmez demekdir !
-
       let cart = JSON.parse(localStorage.getItem("cart")!);
       const productInCart = cart.find((item: any) => {
         return item.product.id === product.id;
@@ -58,20 +58,21 @@ export default defineComponent({
       } else {
         cart.push({ product, quantity: 1 });
       }
-      localStorage.setItem("cart", JSON.stringify(cart));
+      Mutation({
+        namespace: EnumStoreNamespace.CART,
+        mutation: SET_CART,
+        payload: cart,
+      });
     }
 
     //#endregion
 
     // #region Hooks
-
     onMounted(() => {
       window.addEventListener("scroll", (event: any) => {
         getProducts(event);
       });
       triggerProducts(skip.value, limit.value);
-
-      
     });
 
     // #endregion
@@ -79,7 +80,7 @@ export default defineComponent({
       products,
       loading,
       getProducts,
-      addToCart
+      addToCart,
     };
   },
 });
