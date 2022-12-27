@@ -66,8 +66,8 @@
             >
               Users
             </router-link>
-             <button
-            @click="logOut()"
+            <button
+              @click="logOut()"
               class="flex justify-center items-center px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               Sign out
@@ -95,33 +95,33 @@
                     </svg>
                     <span
                       class="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-xs leading-tight text-center"
-                      >{{cartTotalCount}}
+                      >{{ cartTotalCount }}
                     </span>
                   </div>
                 </router-link>
               </div>
             </button>
-
-            <button
-              type="button"
-              class="flex items-center focus:outline-none"
-              aria-label="toggle profile dropdown"
-            >
-              <div
-                class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full"
+            <router-link to="/user">
+              <button
+                type="button"
+                class="flex items-center focus:outline-none"
+                aria-label="toggle profile dropdown"
               >
-                <img
-                  :src="currentUser?.image"
-                  class="object-cover w-full h-full"
-                  alt="avatar"
-                />
-              </div>
+                <div
+                  class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full"
+                >
+                  <img
+                    :src="currentUser?.image"
+                    class="object-cover w-full h-full"
+                    alt="avatar"
+                  />
+                </div>
 
-              <h3 class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">
-                {{currentUser?.firstName}} {{currentUser?.lastName}}
-              </h3>
-            </button>
-           
+                <h3 class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">
+                  {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+                </h3>
+              </button>
+            </router-link>
           </div>
         </div>
       </div>

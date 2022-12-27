@@ -4,10 +4,7 @@ import { useRouter } from "vue-router";
 import type { TLoginUser } from "@/types/User";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
-import $http from "@/utils/interceptors";
-import { EnumStoreNamespace } from "@/enums";
-import { SET_CURRENT_USER } from "@/store/modules/user/constants";
-import { Mutation } from "@/helpers/store";
+import { apiLogin } from "@/apis/auth/login";
 
 export default defineComponent({
   name: "LoginPage",
@@ -16,16 +13,16 @@ export default defineComponent({
   setup() {
     // #region State
     const $router = useRouter();
-    
-    let creatingUser = ref<TLoginUser>({
+
+    let loginingUser = ref<TLoginUser>({
       username: "",
       password: "",
     });
     const rules = {
-      username: { required }, // Matches creatingUser.username
-      password: { required, min: minLength(6) }, // Matches creatingUser.password
+      username: { required }, // Matches loginingUser.username
+      password: { required, min: minLength(6) }, // Matches loginingUser.password
     };
-    const validate: any = useVuelidate(rules, creatingUser.value);
+    const validate: any = useVuelidate(rules, loginingUser.value);
 
     // #endregion
 
@@ -39,17 +36,12 @@ export default defineComponent({
       validate.value.$dirty = true;
       if (!validate.value.$error) {
         try {
-          const response = await $http({
-            method: "POST",
-            data: creatingUser.value,
-            url: `/auth/login`,
-          });
+          const response = await apiLogin(loginingUser.value);
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("currentUser", JSON.stringify(response.data));
-
           await $router.push({ path: "/products" });
         } catch (error) {}
-        creatingUser.value = {
+        loginingUser.value = {
           username: "",
           password: "",
         };
@@ -59,7 +51,7 @@ export default defineComponent({
     // #endregion
 
     return {
-      creatingUser,
+      loginingUser,
       validate,
       handleSubmit,
       handleBlur,

@@ -1,7 +1,14 @@
-import { defineComponent, onMounted, ref } from "vue";
-import $http from "@/utils/interceptors";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { StarIcon } from "@heroicons/vue/20/solid";
+import { Getter, Mutation, Action } from "@/helpers/store";
+import { EnumStoreNamespace } from "@/enums";
+import {
+  GET_CART,
+  SET_CART,
+  ADD_TO_CART,
+} from "@/store/modules/cart/constants";
+import { apiProduct } from "@/apis/dashboard/product";
 
 export default defineComponent({
   name: "ProductInfoPage",
@@ -11,17 +18,24 @@ export default defineComponent({
     const product = ref<any>({});
     const $route = useRoute();
     const productId = ref<number>(Number($route.params.id));
+    const addedToCart = ref<boolean>(false);
 
+    // #endregion
+
+    // #region Computed
+    const cart = computed(() => {
+      return Getter({
+        namespace: EnumStoreNamespace.CART,
+        getter: GET_CART,
+      });
+    });
     // #endregion
 
     // #region Methods
 
     async function getProduct() {
       try {
-        const response = await $http({
-          method: "GET",
-          url: `/products/${productId.value}`,
-        });
+        const response = await apiProduct(productId.value);
         product.value = response.data;
       } catch (error) {
         console.log(error);
@@ -29,18 +43,20 @@ export default defineComponent({
     }
 
     function addToCart(product: any) {
-      //hecvact null ola bilmez demekdir !
-
-      let cart = JSON.parse(localStorage.getItem("cart")!);
-      const productInCart = cart.find((item: any) => {
-        return item.product.id === product.id;
+      Action({
+        namespace: EnumStoreNamespace.CART,
+        action: ADD_TO_CART,
+        payload: product,
       });
-      if (productInCart) {
-        productInCart.quantity += 1;
-      } else {
-        cart.push({ product, quantity: 1 });
-      }
-      localStorage.setItem("cart", JSON.stringify(cart));
+      Mutation({
+        namespace: EnumStoreNamespace.CART,
+        mutation: SET_CART,
+        payload: cart.value,
+      });
+      addedToCart.value = true;
+      setTimeout(function () {
+        addedToCart.value = false;
+      }, 1500);
     }
 
     //#endregion
@@ -55,6 +71,7 @@ export default defineComponent({
     return {
       product,
       addToCart,
+      addedToCart,
     };
   },
 });

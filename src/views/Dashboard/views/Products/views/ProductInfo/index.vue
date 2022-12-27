@@ -92,7 +92,9 @@
                   v-for="rating in [0, 1, 2, 3, 4]"
                   :key="rating"
                   :class="[
-                    product?.rating > rating ? 'text-gray-900' : 'text-gray-200',
+                    product?.rating > rating
+                      ? 'text-gray-900'
+                      : 'text-gray-200',
                     'h-5 w-5 flex-shrink-0',
                   ]"
                   aria-hidden="true"
@@ -105,12 +107,19 @@
 
           <form class="mt-10">
             <button
-            @click.prevent="addToCart(product)"
+              v-if="!addedToCart"
+              @click.prevent="addToCart(product)"
               type="submit"
               class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Add to cart
             </button>
+            <div
+              v-else
+              class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-green-500 py-3 px-8 text-base font-medium text-white"
+            >
+              Addded to cart
+            </div>
           </form>
         </div>
 

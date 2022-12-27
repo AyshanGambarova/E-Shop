@@ -11,6 +11,11 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
+enum EnumRemovingProcess {
+  SPECIFIC = "SPECIFIC",
+  ALL = "ALL",
+}
+
 export default defineComponent({
   name: "ShoppingCartPage",
   components: {
@@ -22,9 +27,12 @@ export default defineComponent({
     ExclamationTriangleIcon,
   },
   setup() {
+    // state store methods computed watch hooks ardicilliq bele olsun ve open nedi daha aydin yaz
     // #region State
-    const open=ref<boolean>(false);
-    
+    const open = ref<boolean>(false);
+    const removingProductIndex = ref<any>(null);
+    let removingProcess = ref<string>("");
+
     // #endregion
 
     // #region Computed
@@ -45,13 +53,14 @@ export default defineComponent({
     // #endregion
 
     // #region Method
-    const updateStore = () => {
+    const updateStore = (payload?: any) => {
       Mutation({
         namespace: EnumStoreNamespace.CART,
         mutation: SET_CART,
-        payload: cart.value,
+        payload: payload || cart.value,
       });
     };
+    //Burada itemin ozunude goturub quantity'in artira bilerdik
     const increaseQuantity = (id: number) => {
       const incresedItem = cart.value.filter((x: any) => x.product.id === id);
       incresedItem[0].quantity++;
@@ -68,20 +77,51 @@ export default defineComponent({
     const caclItemPrice = (item: any) => {
       return item.product.price * item.quantity;
     };
-    const removeProduct = (index: number) => {
-      cart.value.splice(index, 1);
-      console.log(cart.value);
+
+    const removingSelectedProduct = (index: number) => {
+      removingProcess.value = EnumRemovingProcess.SPECIFIC;
+      removingProductIndex.value = index;
+      open.value = true;
+    };
+
+    const removeSelectedProduct = () => {
+      open.value = false;
+      cart.value.splice(removingProductIndex.value, 1);
       updateStore();
     };
+
+    const removingAllProducts = () => {
+      removingProcess.value = EnumRemovingProcess.ALL;
+      open.value = true;
+    };
+
+    const removeAllProducts = () => {
+      const emptyCart: any = [];
+      localStorage.setItem("cart", JSON.stringify(emptyCart));
+      updateStore(emptyCart);
+      open.value = false;
+    };
+
+    const removeProduct = () => {
+      if (removingProcess.value === EnumRemovingProcess.ALL) {
+        removeAllProducts();
+      } else if (removingProcess.value === EnumRemovingProcess.SPECIFIC) {
+        removeSelectedProduct();
+      }
+    };
+
     // #endregion
 
-
     return {
+      EnumRemovingProcess,
       cart,
       open,
       cartTotalPrice,
+      removingProcess,
       caclItemPrice,
       removeProduct,
+      removingSelectedProduct,
+      removingAllProducts,
       decreaseQuantity,
       increaseQuantity,
     };

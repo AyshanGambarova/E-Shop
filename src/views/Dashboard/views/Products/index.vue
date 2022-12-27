@@ -9,12 +9,12 @@
         >
           <!-- Card -->
           <div :loading="loading" v-for="product in products" :key="product.id">
-             <router-link :to="`/products/${product.id}`">
-            <div
-              class="w-full h-64 bg-gray-300 bg-center bg-cover rounded-lg shadow-md"
-              :style="{ backgroundImage: `url(${product?.thumbnail})` }"
-            ></div>
-             </router-link>
+            <router-link :to="`/products/${product.id}`">
+              <div
+                class="w-full h-64 bg-gray-300 bg-center bg-cover rounded-lg shadow-md"
+                :style="{ backgroundImage: `url(${product?.thumbnail})` }"
+              ></div>
+            </router-link>
             <div
               class="w-56 -mt-10 overflow-hidden bg-white rounded-lg shadow-lg md:w-64 dark:bg-gray-800"
             >
@@ -31,10 +31,19 @@
                   >${{ product?.price }}</span
                 >
                 <button
-                  @click="addToCart(product)"
-                  class="px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-indigo-700 rounded hover:bg-indigo-800 dark:hover:bg-indigo-600 focus:bg-indigo-700 dark:focus:bg-indigo-600 focus:outline-none"
+                  @click.prevent="addToCart(product)"
+                  type="submit"
+                  :class="
+                    selectedProductId === product.id
+                      ? 'rounded-full px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-green-700 rounded hover:bg-green-800 dark:hover:bg-green-600 focus:bg-green-700 dark:focus:bg-green-600 focus:outline-none'
+                      : 'rounded-full px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-indigo-700 rounded hover:bg-indigo-800 dark:hover:bg-indigo-600 focus:bg-indigo-700 dark:focus:bg-indigo-600 focus:outline-none'
+                  "
                 >
-                  Add to cart
+                  {{
+                    selectedProductId === product.id
+                      ? `Added to cart`
+                      : `Add to cart`
+                  }}
                 </button>
               </div>
             </div>

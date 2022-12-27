@@ -1,15 +1,20 @@
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, computed } from "vue";
 import $http from "@/utils/interceptors";
-import { Mutation } from "@/helpers/store";
+import { Getter, Mutation, Action } from "@/helpers/store";
 import { EnumStoreNamespace } from "@/enums";
-import { SET_CART } from "./../../../../store/modules/cart/constants";
+import {
+  GET_CART,
+  SET_CART,
+  ADD_TO_CART,
+} from "@/store/modules/cart/constants";
+import { apiProducts } from "@/apis/dashboard/product";
 
 export default defineComponent({
   name: "ProductsPage",
   setup() {
-
     // #region States
     const products = ref<any>([]);
+    const selectedProductId = ref<number>(0);
     let skip = ref<number>(0);
     let loading = ref<boolean>(false);
     let limit = ref<number>(10);
@@ -17,6 +22,15 @@ export default defineComponent({
 
     // #endregion
 
+    // #region Computed
+    const cart = computed(() => {
+      return Getter({
+        namespace: EnumStoreNamespace.CART,
+        getter: GET_CART,
+      });
+    });
+
+    // #endregion
     // #region Methods
     async function getProducts(event: any) {
       try {
@@ -33,36 +47,30 @@ export default defineComponent({
         console.log(error);
       }
     }
+
     async function triggerProducts(skipNumber: number, limitNumber: number) {
       loading.value = true;
-      const response = await $http({
-        method: "GET",
-        url: `/products`,
-        params: {
-          skip: skipNumber,
-          limit: limitNumber,
-        },
-      });
+      const response = await apiProducts(skipNumber, limitNumber);
       skip.value = skipNumber + limitNumber;
       loading.value = false;
       products.value = [...products.value, ...response.data.products];
     }
 
     function addToCart(product: any) {
-      let cart = JSON.parse(localStorage.getItem("cart")!);
-      const productInCart = cart.find((item: any) => {
-        return item.product.id === product.id;
+      Action({
+        namespace: EnumStoreNamespace.CART,
+        action: ADD_TO_CART,
+        payload: product,
       });
-      if (productInCart) {
-        productInCart.quantity += 1;
-      } else {
-        cart.push({ product, quantity: 1 });
-      }
       Mutation({
         namespace: EnumStoreNamespace.CART,
         mutation: SET_CART,
-        payload: cart,
+        payload: cart.value,
       });
+      selectedProductId.value = product.id;
+      setTimeout(function () {
+        selectedProductId.value = 0;
+      }, 1000);
     }
 
     //#endregion
@@ -81,6 +89,7 @@ export default defineComponent({
       loading,
       getProducts,
       addToCart,
+      selectedProductId,
     };
   },
 });

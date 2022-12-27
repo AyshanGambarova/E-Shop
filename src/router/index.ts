@@ -5,6 +5,7 @@ import Dashboard from "@/views/Dashboard/routes";
 const routes = [...Login, ...Dashboard]
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  //@ts-ignore
   routes
 });
 

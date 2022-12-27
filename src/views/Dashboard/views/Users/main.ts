@@ -6,6 +6,7 @@ import { Getter } from "@/helpers/store";
 
 export default defineComponent({
   name: "UsersPage",
+  //@ts-ignore
   components: { Pagination, ChevronLeftIcon, ChevronRightIcon },
   setup() {
     // #region State
@@ -21,7 +22,7 @@ export default defineComponent({
     // #endregion
 
     // #region Methods
-    
+
     function showMore(pg: number) {
       page.value = pg;
       currentPage.value = pg;

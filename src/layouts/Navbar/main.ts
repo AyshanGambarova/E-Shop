@@ -4,6 +4,7 @@ import { onMounted } from "vue";
 import { Mutation, Getter } from "@/helpers/store";
 import { EnumStoreNamespace } from "@/enums";
 import { GET_CART, SET_CART } from "@/store/modules/cart/constants";
+import { GET_CURRENT_USER } from "@/store/modules/user/constants";
 
 export default defineComponent({
   name: "Navbar",
@@ -13,8 +14,7 @@ export default defineComponent({
     // #region State
     const $router = useRouter();
     let isOpen = ref<boolean>(false);
-    const currentUser = ref<any>({});
-    currentUser.value = JSON.parse(localStorage.getItem("currentUser")!);
+    
 
     // #endregion
 
@@ -30,6 +30,12 @@ export default defineComponent({
       return Getter({
         namespace: EnumStoreNamespace.CART,
         getter: GET_CART,
+      });
+    });
+    const currentUser = computed(() => {
+      return Getter({
+        namespace: EnumStoreNamespace.USER,
+        getter: GET_CURRENT_USER,
       });
     });
 
